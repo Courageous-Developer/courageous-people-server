@@ -1,0 +1,24 @@
+{
+  "SECRET_KEY": "django-insecure-!w-=km+u&i_r3bggze7zlwkuesgk++bhtbz27#m%iuxk&md+g@",
+  "DATABASE": {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "knowhow",
+        "USER": "root",
+        "PASSWORD": "12345!",
+        "HOST": "223.194.46.212",
+        "PORT": "3306"
+    },
+    "Net_plus": {
+        "ENGINE": "sql_server.pyodbc",
+        "NAME": "PROJECT",
+        "USER": "PROJECT",
+        "PASSWORD": "pro@#ject#$1!",
+        "HOST": "133.186.211.187",
+        "PORT": "27455",
+        "OPTIONS": {
+            "driver": "ODBC Driver 17 for SQL Server"
+        }
+    }
+}
+}
