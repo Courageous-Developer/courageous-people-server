@@ -43,22 +43,22 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1:8000"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    # 'auth.apps.AuthConfig',
-    # 'board.apps.BoardConfig',
-    'auth',
-    'board',
+    'rest_framework_simplejwt.token_blacklist',
+    'account.apps.AccountConfig',
+    'board.apps.BoardConfig',
 ]
 
 MIDDLEWARE = [
