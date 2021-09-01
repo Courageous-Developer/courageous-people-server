@@ -65,3 +65,4 @@ class Tag(models.Model):
     updt_dt = models.DateTimeField(db_column='updt_dt', auto_now=True)
     insrt_dt = models.DateTimeField(db_column='insrt_dt', auto_now_add=True)
     usage_fg = models.CharField(db_column='usage_fg', max_length=1, blank=True, null=True, default='Y')
+

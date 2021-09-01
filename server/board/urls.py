@@ -6,4 +6,5 @@ urlpatterns = [
     path('store/<int:pk>', views.StoreDetail.as_view(), name='store_detail'),
     path('review/<int:pk>', views.ReviewList.as_view(), name='review_list'),
 
+
 ]
