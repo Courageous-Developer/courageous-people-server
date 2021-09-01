@@ -7,4 +7,3 @@ urlpatterns = [
     path('review/<int:pk>', views.ReviewList.as_view(), name='review_list'),
 
 ]
-
