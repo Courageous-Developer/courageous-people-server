@@ -16,6 +16,7 @@ class StoreList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
+        permission_classes = [IsAuthenticated]
         query_set = Store.objects.all()
         serializer = StoreSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
@@ -23,7 +24,7 @@ class StoreList(APIView):
     @csrf_exempt
     def post(self, request, format=None):
 
-        permission_classes = (IsAuthenticated,)
+        permission_classes = [IsAuthenticated]
 
         data = JSONParser().parse(request)
 
@@ -83,8 +84,8 @@ class ReviewList(APIView):
 
     @csrf_exempt
     def get(self, request, pk, format=None):
-        obj = Store.objects.get(store_id=pk)
-        serializer = ReviewSerializers(obj, many=True)
+        query_set = Review.objects.get(store_id=pk)
+        serializer = ReviewSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
     # 리뷰 쓰기
@@ -94,9 +95,6 @@ class ReviewList(APIView):
         permission_classes = (IsAuthenticated,)
 
         data = JSONParser().parse(request)
-
-        if Review.objects.filter(store_id=data['store_id'], usage_fg='Y').exists():
-            raise exceptions.ParseError("Duplicate Store")
 
         serializer = ReviewSerializers(data=data)
 
@@ -109,6 +107,7 @@ class ReviewList(APIView):
     # 리뷰 수정하기
     @csrf_exempt
     def put(self, request, pk, format=None):
+
         permission_classes = (IsAuthenticated,)
 
         obj = Review.objects.get(id=pk)
@@ -144,7 +143,7 @@ class ReviewImgList(APIView):
     # 가게id, 리뷰id 에 맞게 보여주기
     @csrf_exempt
     def get(self, request, pk, format=None):
-        obj = Review_Img.objects.get(id=pk)
+        obj = ReviewImg.objects.get(id=pk)
         serializer = ReviewImgSerializers(obj)
         return JsonResponse(serializer.data, status=200)
 
@@ -156,7 +155,7 @@ class ReviewImgList(APIView):
 
         data = JSONParser().parse(request)
 
-        if Review_Img.objects.filter(review_id=data['review_id'], usage_fg='Y').exists():
+        if ReviewImg.objects.filter(review_id=data['review_id'], usage_fg='Y').exists():
             raise exceptions.ParseError("Duplicate review_id")
 
         serializer = ReviewImgSerializers(data=data)
@@ -185,7 +184,7 @@ class ReviewImgList(APIView):
     # 이미지 삭제
     @csrf_exempt
     def delete(self, request, pk, format=None):
-        obj = Review_Img.objects.get(id=pk)
+        obj = ReviewImg.objects.get(id=pk)
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
