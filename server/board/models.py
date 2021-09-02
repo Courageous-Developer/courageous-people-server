@@ -12,6 +12,8 @@ class Store(models.Model):  # 가게
     post = models.CharField(db_column='post', max_length=500, blank=True, null=True)
     picture = models.CharField(db_column='picture', max_length=200, blank=True, null=True)
     biz_num = models.CharField(db_column='biz_num', max_length=45)
+    latitude = models.DecimalField(db_column='latitude', max_digits=18, decimal_places=15, blank=True, null=True)
+    longitude = models.DecimalField(db_column='longitude', max_digits=18, decimal_places=15, blank=True, null=True)
     user = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
     updt_dt = models.DateTimeField(db_column='updt_dt', auto_now=True)
     insrt_dt = models.DateTimeField(db_column='insrt_dt', auto_now_add=True)
