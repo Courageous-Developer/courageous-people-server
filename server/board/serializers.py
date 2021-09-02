@@ -8,7 +8,7 @@ from rest_framework import serializers
 class StoreSerializers(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ('store_name', 'address', 'post', 'picture', 'biz_num', 'user_id')
+        fields = ('store_name', 'address', 'post', 'picture', 'biz_num', 'latitude', 'longitude', 'user')
 
 
 class ReviewSerializers(serializers.ModelSerializer):
