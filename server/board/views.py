@@ -201,7 +201,7 @@ class TagList(APIView):
 
     @csrf_exempt
     def get(self, request, pk, format=None):
-        query_set = Tag.objects.get(store_id=pk)
+        query_set = Tag.objects.get(review_id=pk)
         serializer = TagSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
