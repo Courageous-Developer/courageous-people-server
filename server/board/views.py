@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from .models import *
 from .serializers import *
@@ -13,18 +13,16 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 class StoreList(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @csrf_exempt
     def get(self, request, format=None):
-        permission_classes = [IsAuthenticated]
         query_set = Store.objects.all()
         serializer = StoreSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
     @csrf_exempt
     def post(self, request, format=None):
-
-        # permission_classes = [IsAuthenticated]
 
         data = JSONParser().parse(request)
 
@@ -41,6 +39,7 @@ class StoreList(APIView):
 
 
 class StoreDetail(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @csrf_exempt
     def get(self, request, pk, format=None):
@@ -50,7 +49,6 @@ class StoreDetail(APIView):
 
     @csrf_exempt
     def put(self, request, pk, format=None):
-        permission_classes = (IsAuthenticated,)
 
         obj = Store.objects.get(id=pk)
         data = JSONParser().parse(request)
@@ -77,18 +75,17 @@ class StoreDetail(APIView):
 # (2-2) 리뷰 수정하기
 # (3) 리뷰 삭제하기
 class ReviewList(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @csrf_exempt
     def get(self, request, format=None):
-        permission_classes = [IsAuthenticated]
+
         query_set = Review.objects.all()
         serializer = ReviewSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
     @csrf_exempt
     def post(self, request, format=None):
-
-        permission_classes = [IsAuthenticated]
 
         data = JSONParser().parse(request)
 
@@ -100,14 +97,13 @@ class ReviewList(APIView):
 
         return JsonResponse(serializer.errors, status=400)
 
-class ReviewDetail(APIView):
 
+class ReviewDetail(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     # 리뷰 수정하기
     @csrf_exempt
     def put(self, request, pk, format=None):
-
-        permission_classes = (IsAuthenticated,)
 
         obj = Review.objects.get(id=pk)
         data = JSONParser().parse(request)
@@ -136,10 +132,12 @@ class ReviewDetail(APIView):
 # (3) 이미지 삭제하기
 
 class ReviewImgList(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     # 이미지 보여주기
     #
     # 가게 페이지에서 리뷰에 맞는  이미지를 보여줘야한다.
     # 가게id, 리뷰id 에 맞게 보여주기
+
     @csrf_exempt
     def get(self, request, pk, format=None):
         obj = ReviewImg.objects.get(id=pk)
@@ -149,8 +147,6 @@ class ReviewImgList(APIView):
     # 이미지 올리기
     @csrf_exempt
     def post(self, request, format=None):
-
-        permission_classes = (IsAuthenticated,)
 
         data = JSONParser().parse(request)
 
@@ -164,10 +160,10 @@ class ReviewImgList(APIView):
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
+
     # 이미지 수정하기
     @csrf_exempt
     def put(self, request, pk, format=None):
-        permission_classes = (IsAuthenticated,)
 
         obj = ReviewList.objects.get(id=pk)
         data = JSONParser().parse(request)
@@ -196,18 +192,16 @@ class ReviewImgList(APIView):
 # (3) Tag 수정하기
 # (4) Tag 삭제하기
 class TagList(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @csrf_exempt
     def get(self, request, format=None):
-        permission_classes = [IsAuthenticated]
         query_set = Tag.objects.all()
         serializer = TagSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
     @csrf_exempt
     def post(self, request, format=None):
-
-        permission_classes = [IsAuthenticated]
 
         data = JSONParser().parse(request)
 
@@ -219,11 +213,12 @@ class TagList(APIView):
 
         return JsonResponse(serializer.errors, status=400)
 
+
 class TagDetail(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     @csrf_exempt
     def put(self, request, pk, format=None):
-
-        permission_classes = (IsAuthenticated,)
 
         obj = Tag.objects.get(id=pk)
         data = JSONParser().parse(request)
@@ -251,6 +246,7 @@ class TagDetail(APIView):
 # (3) Menu 수정하기
 # (4) Menu 삭제하기
 class MenuList(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     # (1) Menu 보여줄 때,
     @csrf_exempt
@@ -262,8 +258,6 @@ class MenuList(APIView):
     @csrf_exempt
     def post(self, request, format=None):
 
-        permission_classes = (IsAuthenticated,)
-
         data = JSONParser().parse(request)
 
         serializer = MenuSerializers(data=data)
@@ -274,11 +268,12 @@ class MenuList(APIView):
 
         return JsonResponse(serializer.errors, status=400)
 
+
 class MenuDetail(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     @csrf_exempt
     def put(self, request, pk, format=None):
-
-        permission_classes = (IsAuthenticated,)
 
         obj = Menu.objects.get(id=pk)
         data = JSONParser().parse(request)
