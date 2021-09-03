@@ -44,12 +44,12 @@ class User(AbstractBaseUser):
         (1, "User"),
         (2, "Manager"),
     )
-    type = models.IntegerField(db_column='user_type', choices=UserType, default=1)
+    user_type = models.IntegerField(db_column='user_type', choices=UserType, default=1)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['date_of_birth']
+    REQUIRED_FIELDS = ['date_of_birth', 'user_type']
 
     def __str__(self):
         return self.email
