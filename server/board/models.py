@@ -42,8 +42,8 @@ class Menu(models.Model):
 class Review(models.Model):
     id = models.BigAutoField(db_column='id', primary_key=True)
     content = models.CharField(db_column='content', max_length=200, blank=True, null=True)
-    user = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE, blank=True, null=True)
-    store = models.ForeignKey(Store, related_name='+', on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
+    store = models.ForeignKey(Store, related_name='+', on_delete=models.CASCADE)
     # 등록, 수정 컬럼 + 데이터 보존 Flag 컬럼
     updt_dt = models.DateTimeField(db_column='updt_dt', auto_now=True)
     insrt_dt = models.DateTimeField(db_column='insrt_dt', auto_now_add=True)

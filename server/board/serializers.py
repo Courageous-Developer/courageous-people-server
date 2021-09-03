@@ -14,7 +14,7 @@ class StoreSerializers(serializers.ModelSerializer):
 class ReviewSerializers(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ('content', 'user_id', 'store_id')
+        fields = ('content', 'user', 'store')
 
 
 class ReviewImgSerializers(serializers.ModelSerializer):
@@ -25,10 +25,10 @@ class ReviewImgSerializers(serializers.ModelSerializer):
 class TagSerializers(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ('tag_content', 'review_id', 'type')
+        fields = ('tag_content', 'review', 'type')
 
 
 class MenuSerializers(serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = ('menu', 'store_id')
+        fields = ('menu', 'store')
