@@ -104,6 +104,7 @@ class ReviewList(APIView):
 
         return JsonResponse(serializer.errors, status=400)
 
+class ReviewDetail(APIView):
     # 리뷰 수정하기
     @csrf_exempt
     def put(self, request, pk, format=None):
@@ -185,6 +186,115 @@ class ReviewImgList(APIView):
     @csrf_exempt
     def delete(self, request, pk, format=None):
         obj = ReviewImg.objects.get(id=pk)
+        obj.usage_fg = 'N'
+        obj.save()
+        return HttpResponse(status=204)
+
+
+# Tag API
+# (1) Tag 보여주기
+# (2) Tag 입력하기
+
+# (3) Tag 수정하기
+# (4) Tag 삭제하기
+class TagList(APIView):
+
+    @csrf_exempt
+    def get(self, request, pk, format=None):
+        query_set = Tag.objects.get(review_id=pk)
+        serializer = TagSerializers(query_set, many=True)
+        return JsonResponse(serializer.data, status=200, safe=False)
+
+    @csrf_exempt
+    def post(self, request, format=None):
+
+        permission_classes = (IsAuthenticated,)
+
+        data = JSONParser().parse(request)
+
+        serializer = TagSerializers(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
+class TagDetail(APIView):
+    @csrf_exempt
+    def put(self, request, pk, format=None):
+
+        permission_classes = (IsAuthenticated,)
+
+        obj = Tag.objects.get(id=pk)
+        data = JSONParser().parse(request)
+
+        serializer = TagSerializers(obj, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
+    @csrf_exempt
+    def delete(self, request, pk, format=None):
+        obj = Tag.objects.get(id=pk)
+        obj.usage_fg = 'N'
+        obj.save()
+        return HttpResponse(status=204)
+
+
+# Menu API
+# (1) Menu 보여주기
+# (2) Menu 입력하기
+
+# (3) Menu 수정하기
+# (4) Menu 삭제하기
+class MenuList(APIView):
+
+    # (1) Menu 보여줄 때,
+    @csrf_exempt
+    def get(self, request, pk, format=None):
+        query_set = Menu.objects.get(store_id=pk)
+        serializer = MenuSerializers(query_set, many=True)
+        return JsonResponse(serializer.data, status=200, safe=False)
+
+    @csrf_exempt
+    def post(self, request, format=None):
+
+        permission_classes = (IsAuthenticated,)
+
+        data = JSONParser().parse(request)
+
+        serializer = MenuSerializers(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
+class MenuDetail(APIView):
+    @csrf_exempt
+    def put(self, request, pk, format=None):
+
+        permission_classes = (IsAuthenticated,)
+
+        obj = Menu.objects.get(id=pk)
+        data = JSONParser().parse(request)
+
+        serializer = MenuSerializers(obj, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
+    @csrf_exempt
+    def delete(self, request, pk, format=None):
+        obj = Menu.objects.get(id=pk)
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
