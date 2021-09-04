@@ -8,6 +8,8 @@ from .serializers import *
 from rest_framework.parsers import JSONParser
 from rest_framework import exceptions
 from django.views.decorators.csrf import csrf_exempt
+import json
+import requests
 
 
 # Create your views here.
@@ -49,7 +51,6 @@ class StoreDetail(APIView):
 
     @csrf_exempt
     def put(self, request, pk, format=None):
-
         obj = Store.objects.get(id=pk)
         data = JSONParser().parse(request)
 
@@ -79,14 +80,12 @@ class ReviewList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
-
         query_set = Review.objects.all()
         serializer = ReviewSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
     @csrf_exempt
     def post(self, request, format=None):
-
         data = JSONParser().parse(request)
 
         serializer = ReviewSerializers(data=data)
@@ -104,7 +103,6 @@ class ReviewDetail(APIView):
     # 리뷰 수정하기
     @csrf_exempt
     def put(self, request, pk, format=None):
-
         obj = Review.objects.get(id=pk)
         data = JSONParser().parse(request)
 
@@ -133,6 +131,7 @@ class ReviewDetail(APIView):
 
 class ReviewImgList(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
+
     # 이미지 보여주기
     #
     # 가게 페이지에서 리뷰에 맞는  이미지를 보여줘야한다.
@@ -202,7 +201,6 @@ class TagList(APIView):
 
     @csrf_exempt
     def post(self, request, format=None):
-
         data = JSONParser().parse(request)
 
         serializer = TagSerializers(data=data)
@@ -219,7 +217,6 @@ class TagDetail(APIView):
 
     @csrf_exempt
     def put(self, request, pk, format=None):
-
         obj = Tag.objects.get(id=pk)
         data = JSONParser().parse(request)
 
@@ -257,7 +254,6 @@ class MenuList(APIView):
 
     @csrf_exempt
     def post(self, request, format=None):
-
         data = JSONParser().parse(request)
 
         serializer = MenuSerializers(data=data)
@@ -274,7 +270,6 @@ class MenuDetail(APIView):
 
     @csrf_exempt
     def put(self, request, pk, format=None):
-
         obj = Menu.objects.get(id=pk)
         data = JSONParser().parse(request)
 
@@ -292,3 +287,29 @@ class MenuDetail(APIView):
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
+
+
+class BizAuth(APIView):
+
+    @csrf_exempt
+    def post(self, request, format=None):
+        data = JSONParser().parse(request)
+
+        api_key = "d21gTtDAjK7W6WpSvPSCMl6C%2B%2BEzHrSAEPi%2BSYCXSF7gsn9h62IYlVKT397Sx%2BYJOsN9ztH93J9qzNMaMpo9qg%3D%3D"
+
+        url = "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + api_key
+        body = {
+            "b_no": [
+                data["biz_num"]
+            ]
+        }
+
+        res = requests.post(url, payload=json.dumps(body))
+
+        serializer = BizAuthSerializers(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)

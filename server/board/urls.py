@@ -14,4 +14,7 @@ urlpatterns = [
     path('menu', views.MenuList.as_view(), name='menu_list'),
     path('menu/<int:pk>', views.MenuDetail.as_view(), name='menu_detail'),
 
+    # 사업자 등록번호 검증 API
+    path('biz-auth', views.BizAuth.as_view(), name='biz_auth'),
+
 ]
