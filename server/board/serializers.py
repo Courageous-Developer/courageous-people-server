@@ -22,6 +22,7 @@ class ReviewImgSerializers(serializers.ModelSerializer):
         model = ReviewImg
         fields = ('review_img', 'review_id')
 
+
 class TagSerializers(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -32,3 +33,9 @@ class MenuSerializers(serializers.ModelSerializer):
     class Meta:
         model = Menu
         fields = ('menu', 'store')
+
+
+class BizAuthSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Store
+        fields = 'biz_num'
