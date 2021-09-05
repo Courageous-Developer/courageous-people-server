@@ -20,7 +20,7 @@ class ReviewSerializers(serializers.ModelSerializer):
 class ReviewImgSerializers(serializers.ModelSerializer):
     class Meta:
         model = ReviewImg
-        fields = ('review_img', 'review_id')
+        fields = ('review_img', 'review')
 
 
 class TagSerializers(serializers.ModelSerializer):

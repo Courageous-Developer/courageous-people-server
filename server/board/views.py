@@ -25,11 +25,7 @@ class StoreList(APIView):
 
     @csrf_exempt
     def post(self, request, format=None):
-
         data = JSONParser().parse(request)
-
-        if Store.objects.filter(biz_num=data['biz_num'], usage_fg='Y').exists():
-            raise exceptions.ParseError("Duplicate BizNum")
 
         serializer = StoreSerializers(data=data)
 
@@ -289,27 +285,34 @@ class MenuDetail(APIView):
         return HttpResponse(status=204)
 
 
-class BizAuth(APIView):
+class BizAuth(APIView):  # 사업자 등록번호 검증 API
 
     @csrf_exempt
-    def post(self, request, format=None):
-        data = JSONParser().parse(request)
+    def patch(self, request, pk, format=None):
 
-        api_key = "d21gTtDAjK7W6WpSvPSCMl6C%2B%2BEzHrSAEPi%2BSYCXSF7gsn9h62IYlVKT397Sx%2BYJOsN9ztH93J9qzNMaMpo9qg%3D%3D"
+        try:
+            dic = JSONParser().parse(request)
 
-        url = "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + api_key
-        body = {
-            "b_no": [
-                data["biz_num"]
-            ]
-        }
+            if Store.objects.filter(biz_num=dic['biz_num'], usage_fg='Y').exists():
+                raise exceptions.ParseError("Duplicate BizNum")
 
-        res = requests.post(url, payload=json.dumps(body))
+            api_key = "d21gTtDAjK7W6WpSvPSCMl6C%2B%2BEzHrSAEPi%2BSYCXSF7gsn9h62IYlVKT397Sx%2BYJOsN9ztH93J9qzNMaMpo9qg%3D%3D"
+            headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+            url = "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + api_key
+            body = {
 
-        serializer = BizAuthSerializers(data=data)
+                "b_no": [
+                    dic["biz_num"]
+                ]
+            }
+            res = requests.post(url, data=json.dumps(body), headers=headers)
 
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
+            if res.status_code == 200:
+                obj = Store.objects.get(id=pk)
+                serializer = StoreSerializers(obj, data=dic, partial=True)
 
-        return JsonResponse(serializer.errors, status=400)
+                if serializer.is_valid():
+                    serializer.save()
+                return HttpResponse(res, content_type='application/json')
+        except:
+            return HttpResponse(status=400)
