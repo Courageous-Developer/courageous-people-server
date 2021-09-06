@@ -12,4 +12,5 @@ urlpatterns = [
     path('verify', TokenVerifyView.as_view(), name='token_verify'),
     path('register', RegisterView.as_view(), name='register'),
     path('logout', LogoutView.as_view(), name='log_out'),
+    path('nickname', NameVerifyView.as_view(), name='nickname'),
 ]

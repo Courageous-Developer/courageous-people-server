@@ -45,7 +45,7 @@ class User(AbstractBaseUser):
         (2, "Manager"),
     )
     user_type = models.IntegerField(db_column='user_type', choices=UserType, default=1)
-
+    nickname = models.CharField(db_column='nickname', max_length=255, blank=True, null=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

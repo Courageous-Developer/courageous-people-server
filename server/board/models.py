@@ -11,7 +11,7 @@ class Store(models.Model):  # 가게
     address = models.CharField(db_column='address', max_length=200)
     post = models.CharField(db_column='post', max_length=500, blank=True, null=True)
     picture = models.CharField(db_column='picture', max_length=200, blank=True, null=True)
-    biz_num = models.CharField(db_column='biz_num', max_length=45)
+    biz_num = models.CharField(db_column='biz_num', max_length=45, blank=True, null=True)
     latitude = models.DecimalField(db_column='latitude', max_digits=18, decimal_places=15, blank=True, null=True)
     longitude = models.DecimalField(db_column='longitude', max_digits=18, decimal_places=15, blank=True, null=True)
     user = models.ForeignKey(get_user_model(), related_name='+', on_delete=models.CASCADE)

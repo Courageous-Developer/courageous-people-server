@@ -8,31 +8,36 @@ from rest_framework import serializers
 class StoreSerializers(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ('store_name', 'address', 'post', 'picture', 'biz_num', 'latitude', 'longitude', 'user')
+        fields = '__all__'
+        #fields = ('store_name', 'address', 'post', 'picture', 'biz_num', 'latitude', 'longitude', 'user')
 
 
 class ReviewSerializers(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ('content', 'user', 'store')
+        fields = '__all__'
+        #fields = ('content', 'user', 'store')
 
 
 class ReviewImgSerializers(serializers.ModelSerializer):
     class Meta:
         model = ReviewImg
-        fields = ('review_img', 'review')
+        fields = '__all__'
+        #fields = ('review_img', 'review')
 
 
 class TagSerializers(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ('tag_content', 'review', 'type')
+        fields = '__all__'
+        #fields = ('tag_content', 'review', 'type')
 
 
 class MenuSerializers(serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = ('menu', 'store')
+        fields = '__all__'
+        #fields = ('menu', 'store')
 
 
 class BizAuthSerializers(serializers.ModelSerializer):
