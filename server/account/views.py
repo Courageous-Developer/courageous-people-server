@@ -54,3 +54,17 @@ class LogoutView(APIView):
 class CustomTokenObtainPairView(TokenObtainPairView):
     # Replace the serializer with your custom
     serializer_class = CustomTokenObtainPairSerializer
+
+
+class NameVerifyView(APIView):
+
+    permission_classes = [AllowAny]
+
+    @csrf_exempt
+    def post(self, request):
+        data = JSONParser().parse(request)
+
+        if User.objects.filter(nickname=data['nickname'], is_active=1).exists():
+            return HttpResponse("Duplicate nickname", status=400)
+        else:
+            return HttpResponse(status=200)
