@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'storages',
     'account.apps.AccountConfig',
     'board.apps.BoardConfig',
 ]
@@ -187,5 +188,15 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-
+# Custom User
 AUTH_USER_MODEL = 'account.User'
+
+# S3 Storage
+DEFAULT_FILE_STORAGE = 'board.custom_storage.MediaStorage'
+STATICFILES_STORAGE = 'board.custom_storage.StaticStorage'
+
+# AWS Access
+AWS_ACCESS_KEY_ID = 'AKIA6NDJG65HLUH6NN5N'
+AWS_SECRET_ACCESS_KEY = get_secret("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = 'courageous-bucket'
+
