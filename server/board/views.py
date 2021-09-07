@@ -19,7 +19,7 @@ class StoreList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
-        query_set = Store.objects.all()
+        query_set = Store.objects.filter(usage_fg="Y")
         serializer = StoreSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
@@ -41,13 +41,13 @@ class StoreDetail(APIView):
 
     @csrf_exempt
     def get(self, request, pk, format=None):
-        obj = Store.objects.get(id=pk)
+        obj = Store.objects.get(id=pk, usage_fg="Y")
         serializer = StoreSerializers(obj)
         return JsonResponse(serializer.data, status=200)
 
     @csrf_exempt
     def put(self, request, pk, format=None):
-        obj = Store.objects.get(id=pk)
+        obj = Store.objects.get(id=pk, usage_fg="Y")
         data = JSONParser().parse(request)
 
         serializer = StoreSerializers(obj, data=data)
@@ -60,10 +60,18 @@ class StoreDetail(APIView):
 
     @csrf_exempt
     def delete(self, request, pk, format=None):
-        obj = Store.objects.get(id=pk)
+        obj = Store.objects.get(id=pk, usage_fg="Y")
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
+
+
+class StoreImg(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @csrf_exempt
+    def post(self, request, pk, format=None):
+        img = request.FILES['store_img']
 
 
 # review API
@@ -76,7 +84,7 @@ class ReviewList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
-        query_set = Review.objects.all()
+        query_set = Review.objects.filter(usage_fg="Y")
         serializer = ReviewSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
@@ -96,10 +104,16 @@ class ReviewList(APIView):
 class ReviewDetail(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    @csrf_exempt
+    def get(self, request, pk, format=None):  # store_id에 해당하는 review들만 반환.
+        query_set = Review.objects.filter(store_id=pk, usage_fg="Y")
+        serializer = ReviewSerializers(query_set, many=True)
+        return JsonResponse(serializer.data, status=200, safe=False)
+
     # 리뷰 수정하기
     @csrf_exempt
     def put(self, request, pk, format=None):
-        obj = Review.objects.get(id=pk)
+        obj = Review.objects.get(id=pk, usage_fg="Y")
         data = JSONParser().parse(request)
 
         serializer = ReviewSerializers(obj, data=data)
@@ -113,7 +127,7 @@ class ReviewDetail(APIView):
     # 리뷰 삭제
     @csrf_exempt
     def delete(self, request, pk, format=None):
-        obj = Review.objects.get(id=pk)
+        obj = Review.objects.get(id=pk, usage_fg="Y")
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
@@ -135,7 +149,7 @@ class ReviewImgList(APIView):
 
     @csrf_exempt
     def get(self, request, pk, format=None):
-        obj = ReviewImg.objects.get(id=pk)
+        obj = ReviewImg.objects.get(id=pk, usage_fg="Y")
         serializer = ReviewImgSerializers(obj)
         return JsonResponse(serializer.data, status=200)
 
@@ -160,7 +174,7 @@ class ReviewImgList(APIView):
     @csrf_exempt
     def put(self, request, pk, format=None):
 
-        obj = ReviewList.objects.get(id=pk)
+        obj = ReviewList.objects.get(id=pk, usage_fg="Y")
         data = JSONParser().parse(request)
 
         serializer = ReviewImgSerializers(obj, data=data)
@@ -174,7 +188,7 @@ class ReviewImgList(APIView):
     # 이미지 삭제
     @csrf_exempt
     def delete(self, request, pk, format=None):
-        obj = ReviewImg.objects.get(id=pk)
+        obj = ReviewImg.objects.get(id=pk, usage_fg="Y")
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
@@ -191,7 +205,7 @@ class TagList(APIView):
 
     @csrf_exempt
     def get(self, request, format=None):
-        query_set = Tag.objects.all()
+        query_set = Tag.objects.filter(usage_fg="Y")
         serializer = TagSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
@@ -213,7 +227,7 @@ class TagDetail(APIView):
 
     @csrf_exempt
     def put(self, request, pk, format=None):
-        obj = Tag.objects.get(id=pk)
+        obj = Tag.objects.get(id=pk, usage_fg="Y")
         data = JSONParser().parse(request)
 
         serializer = TagSerializers(obj, data=data)
@@ -226,7 +240,7 @@ class TagDetail(APIView):
 
     @csrf_exempt
     def delete(self, request, pk, format=None):
-        obj = Tag.objects.get(id=pk)
+        obj = Tag.objects.get(id=pk, usage_fg="Y")
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
@@ -244,7 +258,7 @@ class MenuList(APIView):
     # (1) Menu 보여줄 때,
     @csrf_exempt
     def get(self, request, format=None):
-        query_set = Menu.objects.all()
+        query_set = Menu.objects.filter(usage_fg="Y")
         serializer = MenuSerializers(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
@@ -266,7 +280,7 @@ class MenuDetail(APIView):
 
     @csrf_exempt
     def put(self, request, pk, format=None):
-        obj = Menu.objects.get(id=pk)
+        obj = Menu.objects.get(id=pk, usage_fg="Y")
         data = JSONParser().parse(request)
 
         serializer = MenuSerializers(obj, data=data)
@@ -279,7 +293,7 @@ class MenuDetail(APIView):
 
     @csrf_exempt
     def delete(self, request, pk, format=None):
-        obj = Menu.objects.get(id=pk)
+        obj = Menu.objects.get(id=pk, usage_fg="Y")
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
@@ -308,7 +322,7 @@ class BizAuth(APIView):  # 사업자 등록번호 검증 API
             res = requests.post(url, data=json.dumps(body), headers=headers)
 
             if res.status_code == 200:
-                obj = Store.objects.get(id=pk)
+                obj = Store.objects.get(id=pk, usage_fg="Y")
                 serializer = StoreSerializers(obj, data=dic, partial=True)
 
                 if serializer.is_valid():

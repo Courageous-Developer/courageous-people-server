@@ -42,7 +42,9 @@ class LogoutView(APIView):
     @csrf_exempt
     def post(self, request):
         try:
-            refresh_token = request.data["refresh_token"]
+            data = JSONParser().parse(request)
+            print(data['refresh'])
+            refresh_token = data['refresh']
             token = RefreshToken(refresh_token)
             token.blacklist()
 
