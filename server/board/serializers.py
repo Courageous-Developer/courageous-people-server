@@ -1,46 +1,64 @@
-from .models import *
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
+from .models import *
+from django.contrib.auth import get_user_model
 
 
+# User
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'email', 'nickname', 'password', 'date_of_birth', 'user_type')
+
+    def validate_password(self, value: str) -> str:
+        """
+        Hash value passed by user.
+
+        :param value: password of a user
+        :return: a hashed version of the password
+        """
+        return make_password(value)
 # Store CRUD API
 
 
-class StoreSerializers(serializers.ModelSerializer):
+class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = '__all__'
-        #fields = ('store_name', 'address', 'post', 'picture', 'biz_num', 'latitude', 'longitude', 'user')
+        # fields = ('store_name', 'address', 'post', 'picture', 'biz_num', 'latitude', 'longitude', 'user')
 
 
-class ReviewSerializers(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
+
+    nickname = RegisterSerializer(many=True, read_only=True)
+
     class Meta:
         model = Review
-        fields = '__all__'
-        #fields = ('content', 'user', 'store')
+        fields = ('content', 'user', 'store', 'nickname')
 
 
-class ReviewImgSerializers(serializers.ModelSerializer):
+class ReviewImgSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewImg
         fields = '__all__'
-        #fields = ('review_img', 'review')
+        # fields = ('review_img', 'review')
 
 
-class TagSerializers(serializers.ModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
-        #fields = ('tag_content', 'review', 'type')
+        # fields = ('tag_content', 'review', 'type')
 
 
-class MenuSerializers(serializers.ModelSerializer):
+class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
         fields = '__all__'
-        #fields = ('menu', 'store')
+        # fields = ('menu', 'store')
 
 
-class BizAuthSerializers(serializers.ModelSerializer):
+class BizAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = 'biz_num'
