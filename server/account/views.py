@@ -43,7 +43,6 @@ class LogoutView(APIView):
     def post(self, request):
         try:
             data = JSONParser().parse(request)
-            print(data['refresh'])
             refresh_token = data['refresh']
             token = RefreshToken(refresh_token)
             token.blacklist()
