@@ -13,5 +13,5 @@
 
 # Server-Architecture 
 
-![image](https://user-images.githubusercontent.com/55770848/132480401-485e79a1-31d5-495b-98ba-adfba7dad940.png)
+![image](https://user-images.githubusercontent.com/55652627/132682803-6c7eae4c-e2a0-4a7e-9971-86dac4f8501d.png)
 
