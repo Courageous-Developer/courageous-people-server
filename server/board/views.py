@@ -10,7 +10,7 @@ from rest_framework import exceptions
 from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
-
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 
@@ -107,6 +107,9 @@ class ReviewDetail(APIView):
     @csrf_exempt
     def get(self, request, pk, format=None):  # store_id에 해당하는 review들만 반환.
         query_set = Review.objects.filter(store_id=pk, usage_fg="Y")
+        #user_id = get_user_model().objects.get(id=3)
+        #store = Store.objects.get(id=pk)
+        #query_set = Review.objects.create(content="good", store=store, user=user_id)
         serializer = ReviewSerializer(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 

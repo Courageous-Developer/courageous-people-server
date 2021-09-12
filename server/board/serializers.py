@@ -30,11 +30,15 @@ class StoreSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
 
-    nickname = RegisterSerializer(many=True, read_only=True)
-
     class Meta:
         model = Review
-        fields = ('content', 'user', 'store', 'nickname')
+        #fields = ('content', 'user', 'store')
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['User'] = RegisterSerializer(instance.user).data
+        return response
 
 
 class ReviewImgSerializer(serializers.ModelSerializer):
