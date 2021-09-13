@@ -5,7 +5,7 @@
 
 ![image](https://user-images.githubusercontent.com/55770848/132479981-ef1a9c51-3ec1-4b28-9efa-8d6b5395a3e8.png)
 
-### API: 
+### API: https://github.com/980926a/Courageous-Developer-Server/wiki
 
 # ERD
 
@@ -13,5 +13,5 @@
 
 # Server-Architecture 
 
-![image](https://user-images.githubusercontent.com/55770848/132480401-485e79a1-31d5-495b-98ba-adfba7dad940.png)
+![image](https://user-images.githubusercontent.com/55652627/132682803-6c7eae4c-e2a0-4a7e-9971-86dac4f8501d.png)
 
