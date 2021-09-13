@@ -18,27 +18,37 @@ class RegisterSerializer(serializers.ModelSerializer):
         :return: a hashed version of the password
         """
         return make_password(value)
-# Store CRUD API
+
+
+# CRUD API
+class MenuImgSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MenuImg
+        fields = '__all__'
+
+
+class MenuSerializer(serializers.ModelSerializer):
+
+    menu_img = MenuImgSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Menu
+        fields = ('menu', 'store', 'menu_img')
+
+
+class StoreImgSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreImg
+        fields = '__all__'
 
 
 class StoreSerializer(serializers.ModelSerializer):
+    menu = MenuSerializer(many=True, read_only=True)
+    store_img = StoreImgSerializer(many=True, read_only=True)
+
     class Meta:
         model = Store
-        fields = '__all__'
-        # fields = ('store_name', 'address', 'post', 'picture', 'biz_num', 'latitude', 'longitude', 'user')
-
-
-class ReviewSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Review
-        #fields = ('content', 'user', 'store')
-        fields = '__all__'
-
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['User'] = RegisterSerializer(instance.user).data
-        return response
+        fields = ('id', 'store_name', 'address', 'post', 'biz_num', 'latitude', 'longitude', 'user', 'menu', 'store_img')
 
 
 class ReviewImgSerializer(serializers.ModelSerializer):
@@ -55,11 +65,19 @@ class TagSerializer(serializers.ModelSerializer):
         # fields = ('tag_content', 'review', 'type')
 
 
-class MenuSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
+    tag = TagSerializer(many=True, read_only=True)
+    review_img = ReviewImgSerializer(many=True, read_only=True)
+
     class Meta:
-        model = Menu
-        fields = '__all__'
-        # fields = ('menu', 'store')
+        model = Review
+        fields = ('id', 'content', 'user', 'store', 'tag', 'review_img')
+        # fields = '__all__'
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['nickname'] = RegisterSerializer(instance.user).data.get('nickname')
+        return response
 
 
 class BizAuthSerializer(serializers.ModelSerializer):
