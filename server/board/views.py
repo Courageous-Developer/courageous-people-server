@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from rest_framework import status
@@ -11,6 +13,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
 from django.contrib.auth import get_user_model
+from .custom_storage import MediaStorage
+
 
 # Create your views here.
 
@@ -70,9 +74,45 @@ class StoreImg(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @csrf_exempt
-    def post(self, request, pk, format=None):
+    def post(self, request, format=None):
         img = request.FILES['store_img']
+        store = request.POST['store']
 
+        file_directory_within_bucket = 'store_upload_files/{store_id}'.format(store_id=store)
+
+        # synthesize a full file path; note that we included the filename
+        file_path_within_bucket = os.path.join(
+            file_directory_within_bucket,
+            img.name
+        )
+
+        media_storage = MediaStorage()
+
+        if not media_storage.exists(file_path_within_bucket):  # avoid overwriting existing file
+            media_storage.save(file_path_within_bucket, img)
+            file_url = media_storage.url(file_path_within_bucket)
+
+            data = {
+                'store_img': file_url,
+                'store': store
+            }
+            serializer = StoreImgSerializer(data=data)
+
+            if serializer.is_valid():
+                serializer.save()
+
+            return JsonResponse({
+                'message': 'OK',
+                'fileUrl': file_url,
+            })
+        else:
+            return JsonResponse({
+                'message': 'Error: file {filename} already exists at {file_directory} in bucket {bucket_name}'.format(
+                    filename=img.name,
+                    file_directory=file_directory_within_bucket,
+                    bucket_name=media_storage.bucket_name
+                ),
+            }, status=400)
 
 # review API
 # (1) 리뷰 보여주기
