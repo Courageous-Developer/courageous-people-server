@@ -194,6 +194,7 @@ AUTH_USER_MODEL = 'account.User'
 # S3 Storage
 DEFAULT_FILE_STORAGE = 'board.custom_storage.MediaStorage'
 STATICFILES_STORAGE = 'board.custom_storage.StaticStorage'
+AWS_QUERYSTRING_AUTH = False
 
 # AWS Access
 AWS_ACCESS_KEY_ID = 'AKIA6NDJG65HLUH6NN5N'

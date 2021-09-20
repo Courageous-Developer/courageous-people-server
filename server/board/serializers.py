@@ -71,7 +71,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('id', 'content', 'user', 'store', 'tag', 'review_img')
+        fields = ('id', 'content', 'insrt_dt', 'updt_dt', 'user', 'store', 'tag', 'review_img')
         # fields = '__all__'
 
     def to_representation(self, instance):
