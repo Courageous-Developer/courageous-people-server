@@ -114,6 +114,7 @@ class StoreImg(APIView):
                 ),
             }, status=400)
 
+
 # review API
 # (1) 리뷰 보여주기
 # (2) 리뷰 쓰기
@@ -337,6 +338,51 @@ class MenuDetail(APIView):
         obj.usage_fg = 'N'
         obj.save()
         return HttpResponse(status=204)
+
+
+class MenuImg(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @csrf_exempt
+    def post(self, request, format=None):
+        img = request.FILES['menu_img']
+        menu = request.POST['menu']
+
+        file_directory_within_bucket = 'menu_upload_files/{menu_id}'.format(menu_id=menu)
+
+        # synthesize a full file path; note that we included the filename
+        file_path_within_bucket = os.path.join(
+            file_directory_within_bucket,
+            img.name
+        )
+
+        media_storage = MediaStorage()
+
+        if not media_storage.exists(file_path_within_bucket):  # avoid overwriting existing file
+            media_storage.save(file_path_within_bucket, img)
+            file_url = media_storage.url(file_path_within_bucket)
+
+            data = {
+                'menu_img': file_url,
+                'menu': menu
+            }
+            serializer = StoreImgSerializer(data=data)
+
+            if serializer.is_valid():
+                serializer.save()
+
+            return JsonResponse({
+                'message': 'OK',
+                'fileUrl': file_url,
+            })
+        else:
+            return JsonResponse({
+                'message': 'Error: file {filename} already exists at {file_directory} in bucket {bucket_name}'.format(
+                    filename=img.name,
+                    file_directory=file_directory_within_bucket,
+                    bucket_name=media_storage.bucket_name
+                ),
+            }, status=400)
 
 
 class BizAuth(APIView):  # 사업자 등록번호 검증 API
