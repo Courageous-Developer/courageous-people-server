@@ -1,5 +1,4 @@
 
-
 # Create your views here.
 
 from django.http import JsonResponse, HttpResponse
@@ -69,3 +68,23 @@ class NameVerifyView(APIView):
             return HttpResponse("Duplicate nickname", status=400)
         else:
             return HttpResponse(status=200)
+
+
+class UserView(APIView):
+
+    @csrf_exempt
+    def get(self, request):
+        try:
+            email = request.GET['email']
+
+            try:
+                obj = User.objects.get(email=email)
+            except Exception:
+                return HttpResponse("Does Not Exist", status=400)
+
+            serializer = RegisterSerializer(obj)
+            return JsonResponse(serializer.data, status=200)
+
+        except Exception:
+            return HttpResponse("Null Parameter", status=400)
+
