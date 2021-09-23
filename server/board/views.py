@@ -180,59 +180,49 @@ class ReviewDetail(APIView):
 # (2-2) 이미지 수정하기
 # (3) 이미지 삭제하기
 
-class ReviewImgList(APIView):
+class ReviewImg(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    # 이미지 보여주기
-    #
-    # 가게 페이지에서 리뷰에 맞는  이미지를 보여줘야한다.
-    # 가게id, 리뷰id 에 맞게 보여주기
-
-    @csrf_exempt
-    def get(self, request, pk, format=None):
-        obj = ReviewImg.objects.get(id=pk, usage_fg="Y")
-        serializer = ReviewImgSerializer(obj)
-        return JsonResponse(serializer.data, status=200)
-
-    # 이미지 올리기
     @csrf_exempt
     def post(self, request, format=None):
+        img = request.FILES['review_img']
+        review = request.POST['review']
 
-        data = JSONParser().parse(request)
+        file_directory_within_bucket = 'review_upload_files/{review_id}'.format(review_id=review)
 
-        if ReviewImg.objects.filter(review_id=data['review_id'], usage_fg='Y').exists():
-            raise exceptions.ParseError("Duplicate review_id")
+        # synthesize a full file path; note that we included the filename
+        file_path_within_bucket = os.path.join(
+            file_directory_within_bucket,
+            img.name
+        )
 
-        serializer = ReviewImgSerializer(data=data)
+        media_storage = MediaStorage()
 
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
+        if not media_storage.exists(file_path_within_bucket):  # avoid overwriting existing file
+            media_storage.save(file_path_within_bucket, img)
+            file_url = media_storage.url(file_path_within_bucket)
 
-        return JsonResponse(serializer.errors, status=400)
+            data = {
+                'review_img': file_url,
+                'review': review
+            }
+            serializer = ReviewImgSerializer(data=data)
 
-    # 이미지 수정하기
-    @csrf_exempt
-    def put(self, request, pk, format=None):
+            if serializer.is_valid():
+                serializer.save()
 
-        obj = ReviewList.objects.get(id=pk, usage_fg="Y")
-        data = JSONParser().parse(request)
-
-        serializer = ReviewImgSerializer(obj, data=data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-
-        return JsonResponse(serializer.errors, status=400)
-
-    # 이미지 삭제
-    @csrf_exempt
-    def delete(self, request, pk, format=None):
-        obj = ReviewImg.objects.get(id=pk, usage_fg="Y")
-        obj.usage_fg = 'N'
-        obj.save()
-        return HttpResponse(status=204)
+            return JsonResponse({
+                'message': 'OK',
+                'fileUrl': file_url,
+            })
+        else:
+            return JsonResponse({
+                'message': 'Error: file {filename} already exists at {file_directory} in bucket {bucket_name}'.format(
+                    filename=img.name,
+                    file_directory=file_directory_within_bucket,
+                    bucket_name=media_storage.bucket_name
+                ),
+            }, status=400)
 
 
 # Tag API
@@ -366,7 +356,7 @@ class MenuImg(APIView):
                 'menu_img': file_url,
                 'menu': menu
             }
-            serializer = StoreImgSerializer(data=data)
+            serializer = MenuImgSerializer(data=data)
 
             if serializer.is_valid():
                 serializer.save()
