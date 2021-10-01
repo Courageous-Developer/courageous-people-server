@@ -383,8 +383,8 @@ class BizAuth(APIView):  # 사업자 등록번호 검증 API
         try:
             dic = JSONParser().parse(request)
 
-            if Store.objects.filter(biz_num=dic['biz_num'], usage_fg='Y').exists():
-                raise exceptions.ParseError("Duplicate BizNum")
+            #if Store.objects.filter(biz_num=dic['biz_num'], usage_fg='Y').exists():
+                #raise exceptions.ParseError("Duplicate BizNum")
 
             api_key = "d21gTtDAjK7W6WpSvPSCMl6C%2B%2BEzHrSAEPi%2BSYCXSF7gsn9h62IYlVKT397Sx%2BYJOsN9ztH93J9qzNMaMpo9qg%3D%3D"
             headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
