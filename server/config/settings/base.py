@@ -37,8 +37,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "ec2-13-209-14-10.ap-northeast-2.compute.amazonaws.com", "13.209.14.10"]
 
