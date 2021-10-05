@@ -14,7 +14,7 @@ from django.core.exceptions import ImproperlyConfigured
 import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECRET_KEY 파일 위치
 secret_file = os.path.join(BASE_DIR, 'secrets.json')
@@ -37,8 +37,6 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "ec2-13-209-14-10.ap-northeast-2.compute.amazonaws.com", "13.209.14.10"]
 
 # Application definition
 
