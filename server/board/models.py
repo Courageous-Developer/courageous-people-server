@@ -41,7 +41,8 @@ class StoreImg(models.Model):
 
 class Menu(models.Model):
     id = models.BigAutoField(db_column='id', primary_key=True)
-    menu = models.CharField(db_column='menu', max_length=45)
+    menu = models.CharField(db_column='menu', max_length=45, blank=True, null=True)
+    price = models.CharField(db_column='price', max_length=45, blank=True, null=True)
     store = models.ForeignKey(Store, related_name='menu', on_delete=models.CASCADE, blank=True, null=True)
     updt_dt = models.DateTimeField(db_column='updt_dt', auto_now=True)
     insrt_dt = models.DateTimeField(db_column='insrt_dt', auto_now_add=True)
