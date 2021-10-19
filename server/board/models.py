@@ -103,7 +103,7 @@ class ReviewImg(models.Model):
 class Tag(models.Model):
     id = models.BigAutoField(db_column='id', primary_key=True)
     tag_content = models.CharField(db_column='tag_content', max_length=200)
-    review = models.ForeignKey(Review, related_name='tag', on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, related_name='tag', on_delete=models.CASCADE, blank=True, null=True)
     TagType = (
         (1, "Product"),
         (2, "Bowl"),
