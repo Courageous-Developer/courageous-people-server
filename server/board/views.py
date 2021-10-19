@@ -3,7 +3,7 @@ import os
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.views import APIView
 from .models import *
 from .serializers import *
@@ -377,14 +377,13 @@ class MenuImg(APIView):
 
 class BizAuth(APIView):  # 사업자 등록번호 검증 API
 
+    permission_classes = [AllowAny]
+
     @csrf_exempt
-    def patch(self, request, pk, format=None):
+    def post(self, request, format=None):
 
         try:
             dic = JSONParser().parse(request)
-
-            #if Store.objects.filter(biz_num=dic['biz_num'], usage_fg='Y').exists():
-                #raise exceptions.ParseError("Duplicate BizNum")
 
             api_key = "d21gTtDAjK7W6WpSvPSCMl6C%2B%2BEzHrSAEPi%2BSYCXSF7gsn9h62IYlVKT397Sx%2BYJOsN9ztH93J9qzNMaMpo9qg%3D%3D"
             headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
@@ -398,11 +397,6 @@ class BizAuth(APIView):  # 사업자 등록번호 검증 API
             res = requests.post(url, data=json.dumps(body), headers=headers)
 
             if res.status_code == 200:
-                obj = Store.objects.get(id=pk, usage_fg="Y")
-                serializer = StoreSerializer(obj, data=dic, partial=True)
-
-                if serializer.is_valid():
-                    serializer.save()
                 return HttpResponse(res, content_type='application/json')
         except:
             return HttpResponse(status=400)

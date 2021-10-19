@@ -66,7 +66,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    tag = TagSerializer(many=True, read_only=True)
+    tag = TagSerializer(many=True)
     review_img = ReviewImgSerializer(many=True, read_only=True)
 
     class Meta:
