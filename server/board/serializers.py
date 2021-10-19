@@ -79,6 +79,14 @@ class ReviewSerializer(serializers.ModelSerializer):
         response['nickname'] = RegisterSerializer(instance.user).data.get('nickname')
         return response
 
+    def create(self, validated_data):
+        tag_data = validated_data.pop('tag')
+        review = Review.objects.create(**validated_data)
+
+        for tag in tag_data:
+            Tag.objects.create(review=review, **tag)
+        return review
+
 
 class BizAuthSerializer(serializers.ModelSerializer):
     class Meta:
