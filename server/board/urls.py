@@ -18,6 +18,6 @@ urlpatterns = [
     path('menu-img', views.MenuImg.as_view(), name='menu_img'),
 
     # 사업자 등록번호 검증 API
-    path('biz-auth/<int:pk>', views.BizAuth.as_view(), name='biz_auth'),
+    path('biz-auth', views.BizAuth.as_view(), name='biz_auth'),
 
 ]
