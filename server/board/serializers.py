@@ -48,7 +48,7 @@ class StoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
-        fields = ('id', 'store_name', 'address', 'post', 'biz_num', 'latitude', 'longitude', 'user', 'menu', 'store_img')
+        fields = ('id', 'store_name', 'address', 'post', 'latitude', 'longitude', 'user', 'menu', 'store_img')
 
 
 class ReviewImgSerializer(serializers.ModelSerializer):

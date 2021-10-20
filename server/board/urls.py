@@ -5,6 +5,7 @@ urlpatterns = [
     path('store', views.StoreList.as_view(), name='store_list'),
     path('store/<int:pk>', views.StoreDetail.as_view(), name='store_detail'),
     path('store-img', views.StoreImg.as_view(), name='store_img'),
+    path('store-verify', views.StoreVerifyView.as_view(), name='store-verify'),
 
     path('review', views.ReviewList.as_view(), name='review_list'),
     path('review/<int:pk>', views.ReviewDetail.as_view(), name='review_detail'),

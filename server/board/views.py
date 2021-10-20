@@ -400,3 +400,17 @@ class BizAuth(APIView):  # 사업자 등록번호 검증 API
                 return HttpResponse(res, content_type='application/json')
         except:
             return HttpResponse(status=400)
+
+
+class StoreVerifyView(APIView):
+
+    @csrf_exempt
+    def post(self, request):
+        data = JSONParser().parse(request)
+        obj = Store.objects.filter(store_name=data['store_name'], address=data['address'], usage_fg="Y")
+
+        if obj.exists():
+            serializer = StoreSerializer(obj, many=True)
+            return JsonResponse(serializer.data, status=200, safe=False)
+        else:
+            return HttpResponse("Not found", status=404)
