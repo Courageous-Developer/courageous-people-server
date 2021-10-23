@@ -294,16 +294,19 @@ class MenuList(APIView):
         return JsonResponse(serializer.data, status=200, safe=False)
 
     @csrf_exempt
-    def post(self, request, format=None):
+    def post(self, request, format=None):  # 여러 Row 한번에 생성.
         data = JSONParser().parse(request)
 
-        serializer = MenuSerializer(data=data)
+        try:
+            for obj in data['menu_list']:
+                serializer = MenuSerializer(data=obj)
+                if serializer.is_valid():
+                    serializer.save()
 
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
+            return JsonResponse(data, status=201)
 
-        return JsonResponse(serializer.errors, status=400)
+        except:
+            return JsonResponse(status=400)
 
 
 class MenuDetail(APIView):

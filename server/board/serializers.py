@@ -8,16 +8,16 @@ from django.contrib.auth import get_user_model
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('id', 'email', 'password', 'nickname', 'date_of_birth', 'user_type')
+        fields = ('id', 'email', 'nickname', 'password', 'date_of_birth', 'user_type')
 
-    # def validate_password(self, value: str) -> str:
-    #     """
-    #     Hash value passed by user.
-    #
-    #     :param value: password of a user
-    #     :return: a hashed version of the password
-    #     """
-    #     return make_password(value)
+    def validate_password(self, value: str) -> str:
+        """
+        Hash value passed by user.
+
+        :param value: password of a user
+        :return: a hashed version of the password
+        """
+        return make_password(value)
 
 
 # CRUD API
