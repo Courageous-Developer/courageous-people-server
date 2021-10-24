@@ -283,7 +283,7 @@ class TagDetail(APIView):
 
 # (3) Menu 수정하기
 # (4) Menu 삭제하기
-class MenuList(APIView):
+class Menu(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     # (1) Menu 보여줄 때,
@@ -292,6 +292,22 @@ class MenuList(APIView):
         query_set = Menu.objects.filter(usage_fg="Y")
         serializer = MenuSerializer(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
+
+    @csrf_exempt
+    def post(self, request, format=None):
+        data = JSONParser().parse(request)
+
+        serializer = MenuSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+
+        return JsonResponse(serializer.errors, status=400)
+
+
+class MenuList(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @csrf_exempt
     def post(self, request, format=None):  # 여러 Row 한번에 생성.
