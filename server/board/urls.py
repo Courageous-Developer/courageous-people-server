@@ -14,8 +14,9 @@ urlpatterns = [
     path('tag', views.TagList.as_view(), name='tag_list'),
     path('tag/<int:pk>', views.TagDetail.as_view(), name='tag_detail'),
 
-    path('menu', views.MenuList.as_view(), name='menu_list'),
+    path('menu', views.Menu.as_view(), name='menu'),
     path('menu/<int:pk>', views.MenuDetail.as_view(), name='menu_detail'),
+    path('menu-list', views.MenuList.as_view(), name='menu_list'),
     path('menu-img', views.MenuImg.as_view(), name='menu_img'),
 
     # 사업자 등록번호 검증 API
