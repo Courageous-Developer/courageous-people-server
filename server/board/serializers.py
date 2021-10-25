@@ -33,7 +33,7 @@ class MenuSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Menu
-        fields = ('menu', 'price', 'store', 'menu_img')
+        fields = ('id', 'menu', 'price', 'store', 'menu_img')
 
 
 class StoreImgSerializer(serializers.ModelSerializer):
