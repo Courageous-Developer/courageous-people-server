@@ -1,4 +1,4 @@
-# Courageous-Developer-Server
+# Courageous-People-Server
 
 #### 다회용기 캠페인 후기들이 궁금하다면 용기낸 사람들
 ![image](https://user-images.githubusercontent.com/55770848/132479866-83b5d1e9-545e-43f4-8a4a-516c0b034aca.png)
