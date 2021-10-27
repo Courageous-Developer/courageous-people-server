@@ -1,6 +1,6 @@
 # License overview of included 3rd party libraries
 
-The Courageous-Developer-Server project is licensed under the terms of the [MIT](LICENSE.md).
+The Courageous-Developer-Server project is licensed under the terms of the [MIT](LICENSE).
 
 
 However, Courageous-Developer-Server includes several third-party Open-Source libraries, 
