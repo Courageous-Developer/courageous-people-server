@@ -6,7 +6,7 @@ The Courageous-Developer-Server project is licensed under the terms of the [MIT]
 However, Courageous-Developer-Server includes several third-party Open-Source libraries, 
 which are licensed under their own respective Open-Source licenses.
 
-## Libraries included in Courageous-Developer-Server
+## Libraries included in Pimcore
 
 ### Python
   License : PSF License
