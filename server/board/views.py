@@ -426,10 +426,12 @@ class StoreVerifyView(APIView):
     @csrf_exempt
     def post(self, request):
         data = JSONParser().parse(request)
-        obj = Store.objects.get(store_name=data['store_name'], address=data['address'], usage_fg="Y")
+        try:
+            obj = Store.objects.get(store_name=data['store_name'], address=data['address'], usage_fg="Y")
 
-        if obj:
-            serializer = StoreSerializer(obj)
-            return JsonResponse(serializer.data, status=200, safe=False)
-        else:
+            if obj:
+                serializer = StoreSerializer(obj)
+                return JsonResponse(serializer.data, status=200, safe=False)
+
+        except Exception:
             return HttpResponse("Not found", status=404)
