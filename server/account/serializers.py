@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'email', 'nickname', 'password', 'date_of_birth', 'user_type')
+        fields = ('id', 'email', 'nickname', 'password', 'date_of_birth', 'user_type', 'is_active')
 
     def validate_password(self, value: str) -> str:
         """
@@ -25,10 +25,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
+
         token['email'] = user.email
         token['nickname'] = user.nickname
         token['password'] = user.password
-        token['date_of_birth'] = user.date_of_birth
         token['user_type'] = user.user_type
 
         return token
