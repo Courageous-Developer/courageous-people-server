@@ -1,4 +1,3 @@
-
 # Create your views here.
 
 from django.http import JsonResponse, HttpResponse
@@ -14,6 +13,9 @@ from .serializers import *
 from rest_framework.parsers import JSONParser
 from rest_framework import exceptions
 from django.views.decorators.csrf import csrf_exempt
+from django.core.validators import validate_email
+from django.shortcuts import render
+from django.contrib.sites.shortcuts import get_current_site
 
 
 class RegisterView(APIView):
@@ -31,12 +33,19 @@ class RegisterView(APIView):
 
         serializer = RegisterSerializer(data=data)
 
+        current_site = get_current_site(request)
+
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
 
+
+
+#class Activate(APIView):
+    #@csrf_exempt
+    #def get(self, request, uidb64, token):
 
 class LogoutView(APIView):
 
@@ -59,7 +68,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class NameVerifyView(APIView):
-
     permission_classes = [AllowAny]
 
     @csrf_exempt
@@ -89,4 +97,3 @@ class UserView(APIView):
 
         except Exception:
             return HttpResponse("Null Parameter", status=400)
-
