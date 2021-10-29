@@ -27,6 +27,8 @@ class RegisterView(APIView):
         if User.objects.filter(email=data['email'], is_active=1).exists():
             raise exceptions.ParseError("Duplicate email")
 
+        data['is_active'] = 0
+
         serializer = RegisterSerializer(data=data)
 
         if serializer.is_valid():
