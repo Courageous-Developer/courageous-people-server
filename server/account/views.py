@@ -16,6 +16,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.validators import validate_email
 from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from.token import account_activation_token
 
 
 class RegisterView(APIView):
@@ -33,10 +36,15 @@ class RegisterView(APIView):
 
         serializer = RegisterSerializer(data=data)
 
-        current_site = get_current_site(request)
+
 
         if serializer.is_valid():
             serializer.save()
+            current_site = get_current_site(request)
+            domain = current_site.domain
+            #uidb64 = urlsafe_base64_encode(force_bytes(serializer.data['id']))
+            #tokens = account_activation_token.make_token(serializer.data)
+
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
