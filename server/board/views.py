@@ -415,8 +415,10 @@ class BizAuth(APIView):  # 사업자 등록번호 검증 API
             }
             res = requests.post(url, data=json.dumps(body), headers=headers)
 
-            if res.status_code == 200:
+            if eval(res.text)['data'][0]['b_stt'] != "":
                 return HttpResponse(res, content_type='application/json')
+            else:
+                return HttpResponse("국세청에 등록되지 않은 사업자등록번호입니다.", status=400)
         except:
             return HttpResponse(status=400)
 
