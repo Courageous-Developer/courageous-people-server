@@ -14,5 +14,5 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='log_out'),
     path('nickname', NameVerifyView.as_view(), name='nickname'),
     path('user', UserView.as_view(), name='user'),
-    #path('activate/<str:uidb64>/<str:token>', Activate.as_view(), name='activate')
+    path('activate/<str:uidb64>/<str:token>', Activate.as_view(), name='activate')
 ]

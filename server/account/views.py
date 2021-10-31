@@ -1,5 +1,7 @@
 # Create your views here.
+import traceback
 
+from django.core.mail import EmailMessage
 from django.http import JsonResponse, HttpResponse
 from rest_framework.response import Response
 from rest_framework import status
@@ -18,7 +20,7 @@ from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from.token import account_activation_token
+from .token import account_activation_token
 
 
 class RegisterView(APIView):
@@ -36,24 +38,47 @@ class RegisterView(APIView):
 
         serializer = RegisterSerializer(data=data)
 
-
-
         if serializer.is_valid():
             serializer.save()
+            obj = User.objects.get(id=serializer.data['id'])
             current_site = get_current_site(request)
             domain = current_site.domain
-            #uidb64 = urlsafe_base64_encode(force_bytes(serializer.data['id']))
-            #tokens = account_activation_token.make_token(serializer.data)
+            uidb64 = urlsafe_base64_encode(force_bytes(serializer.data['id']))
+            tokens = account_activation_token.make_token(obj)
+            message_data = f"아래 링크를 클릭하여 회원가입 인증을 완료하여 주십시오. \n\nhttp://{domain}/account/activate/" \
+                           f"{uidb64}/{tokens}\n\n감사합니다.\n\n용기 낸 사람들."
+
+            mail_title = "용기 낸 사람들 이메일 인증 요청"
+            mail_to = data['email']
+            email = EmailMessage(mail_title, message_data, to=[mail_to])
+            email.send()
 
             return JsonResponse(serializer.data, status=201)
 
         return JsonResponse(serializer.errors, status=400)
 
 
+class Activate(APIView):
+    permission_classes = [AllowAny]
 
-#class Activate(APIView):
-    #@csrf_exempt
-    #def get(self, request, uidb64, token):
+    @csrf_exempt
+    def get(self, request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=uid)
+        except:
+            user = None
+
+        try:
+            if user and account_activation_token.check_token(user, token):
+                user.is_active = 1
+                user.save()
+                return Response(user.email + "계정이 활성화 되었습니다.", status=status.HTTP_200_OK)
+            else:
+                return Response("만료된 링크입니다.", status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(traceback.format_exc())
+
 
 class LogoutView(APIView):
 
