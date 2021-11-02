@@ -28,7 +28,6 @@ class MenuImgSerializer(serializers.ModelSerializer):
 
 
 class MenuSerializer(serializers.ModelSerializer):
-
     menu_img = MenuImgSerializer(many=True, read_only=True)
 
     class Meta:
@@ -65,7 +64,7 @@ class TagSerializer(serializers.ModelSerializer):
         # fields = ('tag_content', 'review', 'type')
 
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ReviewNestedSerializer(serializers.ModelSerializer):
     tag = TagSerializer(many=True)
     review_img = ReviewImgSerializer(many=True, read_only=True)
 
@@ -86,6 +85,12 @@ class ReviewSerializer(serializers.ModelSerializer):
         for tag in tag_data:
             Tag.objects.create(review=review, **tag)
         return review
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ('id', 'content', 'insrt_dt', 'updt_dt', 'user', 'store')
 
 
 class BizAuthSerializer(serializers.ModelSerializer):

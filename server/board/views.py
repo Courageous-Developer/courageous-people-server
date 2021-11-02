@@ -126,14 +126,14 @@ class ReviewList(APIView):
     @csrf_exempt
     def get(self, request, format=None):
         query_set = Review.objects.filter(usage_fg="Y")
-        serializer = ReviewSerializer(query_set, many=True)
+        serializer = ReviewNestedSerializer(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
     @csrf_exempt
     def post(self, request, format=None):
         data = JSONParser().parse(request)
 
-        serializer = ReviewSerializer(data=data)
+        serializer = ReviewNestedSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
@@ -148,7 +148,7 @@ class ReviewDetail(APIView):
     @csrf_exempt
     def get(self, request, pk, format=None):  # store_id에 해당하는 review들만 반환.
         query_set = Review.objects.filter(store_id=pk, usage_fg="Y")
-        serializer = ReviewSerializer(query_set, many=True)
+        serializer = ReviewNestedSerializer(query_set, many=True)
         return JsonResponse(serializer.data, status=200, safe=False)
 
     # 리뷰 수정하기
