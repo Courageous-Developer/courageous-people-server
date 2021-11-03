@@ -9,15 +9,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'email', 'nickname', 'password', 'date_of_birth', 'user_type', 'is_active')
 
-    def validate_password(self, value: str) -> str:
-        """
-        Hash value passed by user.
-
-        :param value: password of a user
-        :return: a hashed version of the password
-        """
-        return make_password(value)
-
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     """Customizes JWT default Serializer to add more information about user"""
