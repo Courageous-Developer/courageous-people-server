@@ -63,6 +63,8 @@ class Activate(APIView):
 
     @csrf_exempt
     def get(self, request, uidb64, token):
+        context = {}
+
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(id=uid)
@@ -73,7 +75,9 @@ class Activate(APIView):
             if user and account_activation_token.check_token(user, token):
                 user.is_active = 1
                 user.save()
-                return Response(user.email + "계정이 활성화 되었습니다.", status=status.HTTP_200_OK)
+                context['email'] = user.email
+                #return Response(user.email + "계정이 활성화 되었습니다.", status=status.HTTP_200_OK)
+                return render(request, 'activate.html', context)
             else:
                 return Response("만료된 링크입니다.", status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
