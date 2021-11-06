@@ -32,9 +32,45 @@
 ![aws badge](http://img.shields.io/badge/AWS-RDS-blue?style=flat-square&logo=AmazonAWS&logoColor=white)
 ![aws badge](http://img.shields.io/badge/AWS-S3-red?style=flat-square&logo=AmazonAWS&logoColor=white)
 
+<br/>
 
 ### API 명세: https://github.com/Courageous-Developer/courageous-people-server/wiki
+
+![캡처](https://user-images.githubusercontent.com/55652627/140618412-08a29f20-ad4b-4bf7-bc49-2e1c031d3f3b.JPG)
+
 #### 프로젝트 폴더 구성은 account, board, config 총 3개로 나뉘어 있습니다.
-#### account는 사용자 인증 관련 API들이며 board는 Store 게시판, Review 게시판 관련 API 입니다.
+#### account는 사용자 인증 관련 API들이며
+#### board는 Store 게시판, Review 게시판 관련 API 입니다.
 #### config는 공통된 부분과 설정 등이 정의된 폴더입니다.
+
+<br/>
+
+## Server 실행 방법
+```
+conda create -n "가상환경이름" python=3.8
+```
+```
+conda activate "가상환경이름"
+```
+```
+cd Courageous-Developer-Server
+```
+```
+pip install -r requirements.txt
+```
+```
+cd server
+```
+```
+python manage.py runserver
+```
+※SERCRET_KEY와 DB 정보등은 base.py에 있는 그대로 사용하지말고 처음 django project 만들때 있던 정보로 넣어주어야 합니다.
+
+<br/>
+
+### Postman을 활용한 API 테스트
+```
+http://localhost:8000
+```
+![postman2](https://user-images.githubusercontent.com/55652627/140618647-e5b94b73-d116-4c88-bd0e-f9dbaf64224e.JPG)
 
