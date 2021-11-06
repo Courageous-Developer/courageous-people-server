@@ -17,6 +17,9 @@
 #### 지도를 활용하여 주변에 다회용기 캠페인에 참여하는 가게들을 볼 수 도 있습니다.
 #### 가게 사장님들은 자신의 가게를 어플에 등록하여 다회용기 캠페인과 관련된 공식 정보를 게시 할 수 있습니다.
 
+## 시스템 구성도 🖥️
+![KakaoTalk_20211106_185103695](https://user-images.githubusercontent.com/55652627/140605502-e2df7bf4-498d-43ec-ad24-907e430ccc4d.png)
+
 ### API: https://github.com/980926a/Courageous-Developer-Server/wiki
 
 # ERD
@@ -26,4 +29,5 @@
 # Server-Architecture 
 
 ![image](https://user-images.githubusercontent.com/55652627/132682803-6c7eae4c-e2a0-4a7e-9971-86dac4f8501d.png)
+
 
