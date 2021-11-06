@@ -33,5 +33,8 @@
 ![aws badge](http://img.shields.io/badge/AWS-S3-red?style=flat-square&logo=AmazonAWS&logoColor=white)
 
 
-## API 명세: https://github.com/Courageous-Developer/courageous-people-server/wiki
+### API 명세: https://github.com/Courageous-Developer/courageous-people-server/wiki
+#### 프로젝트 폴더 구성은 account, board, config 총 3개로 나뉘어 있습니다.
+#### account는 사용자 인증 관련 API들이며 board는 Store 게시판, Review 게시판 관련 API 입니다.
+#### config는 공통된 부분과 설정 등이 정의된 폴더입니다.
 
