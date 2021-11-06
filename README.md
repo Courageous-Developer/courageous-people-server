@@ -15,23 +15,23 @@
 #### 용기 낸 사람들 애플리케이션은 이러한 다회용기 캠페인에 관련된 정보를 어플을 통해 쉽게 찾아볼 수 있도록 기획되었습니다.
 #### 사용자는 가게에 대해 다회용기 포장한 경험을 후기로 작성하여 다른 캠페인 참여자와 공유할 수 있고
 #### 지도를 활용하여 주변에 다회용기 캠페인에 참여하는 가게들을 볼 수 도 있습니다.
-#### 가게 사장님들은 자신의 가게를 어플에 등록하여 다회용기 캠페인과 관련된 공식 정보를 게시 할 수 있습니다.<br>
+#### 가게 사장님들은 자신의 가게를 어플에 등록하여 다회용기 캠페인과 관련된 공식 정보를 게시 할 수 있습니다.
 
+<br/>
 
 ## 시스템 구성도 🖥️
 ![KakaoTalk_20211106_185103695](https://user-images.githubusercontent.com/55652627/140609866-bcad0030-ddbf-43fb-8b86-308a8ce00ce7.png)
 
+<br/>
+
 ## 프로젝트 Server 기술 Stack ⚙️
-<img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=Django&logoColor=white">
+![python badge](https://img.shields.io/badge/Python-v3.8-4479A1?style=flat-square&logo=Python&logoColor=white)
+![django badge](https://img.shields.io/badge/Django-092E20?style=flat-square&logo=Django&logoColor=white)
+![mysql badge](http://img.shields.io/badge/MySQL-v8.0.21-4479A1?style=flat-square&logo=MySQL&logoColor=white)
+![aws badge](http://img.shields.io/badge/AWS-EC2-FF9900?style=flat-square&logo=AmazonAWS&logoColor=white)
+![aws badge](http://img.shields.io/badge/AWS-RDS-blue?style=flat-square&logo=AmazonAWS&logoColor=white)
+![aws badge](http://img.shields.io/badge/AWS-S3-red?style=flat-square&logo=AmazonAWS&logoColor=white)
 
-### API: https://github.com/980926a/Courageous-Developer-Server/wiki
 
-# ERD
-
-![image](https://user-images.githubusercontent.com/55770848/132480350-54769ca1-5385-4789-a23b-283e3707de67.png)
-
-# Server-Architecture 
-
-![image](https://user-images.githubusercontent.com/55652627/132682803-6c7eae4c-e2a0-4a7e-9971-86dac4f8501d.png)
-
+## API 명세: https://github.com/Courageous-Developer/courageous-people-server/wiki
 
