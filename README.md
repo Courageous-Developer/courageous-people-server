@@ -1,8 +1,6 @@
 # 🍀 다회용기 캠페인 후기들이 궁금하다면 용기낸 사람들
 ![image](https://user-images.githubusercontent.com/55770848/132479866-83b5d1e9-545e-43f4-8a4a-516c0b034aca.png)
 
-![image](https://user-images.githubusercontent.com/55770848/132479981-ef1a9c51-3ec1-4b28-9efa-8d6b5395a3e8.png)
-
 
 
 ## 프로젝트 소개 🔎
@@ -17,10 +15,18 @@
 #### 지도를 활용하여 주변에 다회용기 캠페인에 참여하는 가게들을 볼 수 도 있습니다.
 #### 가게 사장님들은 자신의 가게를 어플에 등록하여 다회용기 캠페인과 관련된 공식 정보를 게시 할 수 있습니다.
 
+
+<br/>
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/55652627/142833101-de7eecbe-ad39-47d1-ac29-33a4912cd621.gif)
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/55652627/142834449-e7061d94-5c78-450e-b031-dce750156c2f.gif)
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/55652627/142834982-e1ef6e00-f97b-4f11-ab93-1e92bf24cd95.gif)
+
 <br/>
 
 ## 시스템 구성도 🖥️
-![KakaoTalk_20211106_185103695](https://user-images.githubusercontent.com/55652627/140609866-bcad0030-ddbf-43fb-8b86-308a8ce00ce7.png)
+![image](https://user-images.githubusercontent.com/55652627/142833647-1397b8c8-5929-4a18-b8af-75d38893a7ca.png)
+
 
 <br/>
 
