@@ -265,4 +265,4 @@ LOGGING = {
     }
 }
 
-ADMINS = [get_secret("EMAIL")['SERVER_EMAIL']]
+ADMINS = ('Park-Young-Hun', get_secret("EMAIL")['SERVER_EMAIL'])
