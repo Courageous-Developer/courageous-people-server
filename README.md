@@ -74,12 +74,6 @@ python manage.py runserver
 
 <br/>
 
-### Postman을 활용한 API 테스트
-```
-http://ec2-13-209-14-10.ap-northeast-2.compute.amazonaws.com:8000
-```
-![postman2](https://user-images.githubusercontent.com/55652627/140618647-e5b94b73-d116-4c88-bd0e-f9dbaf64224e.JPG)
-
 ## Team 💻
 
 * 박영훈 / pyhpyh0670@gmail.com
