@@ -24,6 +24,11 @@
 
 <br/>
 
+## 시연영상
+https://www.youtube.com/watch?v=PVeR2lOx5WY
+
+<br/>
+
 ## 시스템 구성도 🖥️
 ![image](https://user-images.githubusercontent.com/55652627/142833647-1397b8c8-5929-4a18-b8af-75d38893a7ca.png)
 
